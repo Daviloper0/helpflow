@@ -1,0 +1,80 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.39.6.
+--
+-- see: https://github.com/sol/hpack
+
+name:           HelpFlow
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/HelpFlow#readme>
+homepage:       https://github.com/Daviloper0/HelpFlow#readme
+bug-reports:    https://github.com/Daviloper0/HelpFlow/issues
+author:         Davi Guimarães
+maintainer:     davi.guimaraes@aluno.ufabc.edu.br
+copyright:      2026 Davi Guimarães
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/Daviloper0/HelpFlow
+
+library
+  exposed-modules:
+      Domain.Email
+      Domain.Name
+      Domain.SharedStates
+      Domain.User
+      Lib
+  other-modules:
+      Paths_HelpFlow
+  autogen-modules:
+      Paths_HelpFlow
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+    , text
+  default-language: Haskell2010
+
+executable HelpFlow-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_HelpFlow
+  autogen-modules:
+      Paths_HelpFlow
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HelpFlow
+    , aeson
+    , base >=4.7 && <5
+    , text
+  default-language: Haskell2010
+
+test-suite HelpFlow-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Tests.EmailSpec
+      Tests.NameSpec
+      Paths_HelpFlow
+  autogen-modules:
+      Paths_HelpFlow
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HelpFlow
+    , aeson
+    , base >=4.7 && <5
+    , tasty
+    , tasty-hunit
+    , text
+  default-language: Haskell2010
