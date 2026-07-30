@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Domain.Password (PasswordError(..), makeNonValidatedPassword, validatePassword) where
+module Domain.Password (PasswordError(..), makeNonValidatedPassword, validatePassword, Password) where
 
 import Data.Char (isLower, isUpper, isDigit, isSpace)
 import Data.Text (Text)

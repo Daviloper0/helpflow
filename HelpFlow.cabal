@@ -28,6 +28,7 @@ library
       Domain.Email
       Domain.Name
       Domain.Password
+      Domain.PasswordHash
       Domain.SharedStates
       Domain.User
       Lib
