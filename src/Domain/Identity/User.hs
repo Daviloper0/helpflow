@@ -1,4 +1,4 @@
-module Domain.User (Role, User(..)) where
+module Domain.Identity.User (Role, User(..)) where
 
 import Data.Text (Text)
 

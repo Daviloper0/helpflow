@@ -1,4 +1,4 @@
-module Domain.PasswordHash where
+module Domain.Identity.PasswordHash where
 
 import qualified Data.Text as Text
 import Data.Text (Text)

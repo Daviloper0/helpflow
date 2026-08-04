@@ -1,4 +1,4 @@
-module Domain.Email (Email, NonValidated, Validated, EmailError(..), makeNonValidatedEmail, validateEmail) where
+module Domain.Identity.Email (Email, NonValidated, Validated, EmailError(..), makeNonValidatedEmail, validateEmail) where
 
 import Data.Text (Text)
 import qualified Data.Text as Text

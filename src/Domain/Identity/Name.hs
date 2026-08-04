@@ -1,4 +1,4 @@
-module Domain.Name (NameError(..), makeNonValidatedName, validateName)where
+module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName)where
 
 import Data.Char(isLetter, isSpace)
 import Data.Text (Text)
