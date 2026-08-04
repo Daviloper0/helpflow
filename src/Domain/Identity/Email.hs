@@ -1,4 +1,7 @@
-module Domain.Identity.Email (Email, NonValidated, Validated, EmailError(..), makeNonValidatedEmail, validateEmail) where
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE KindSignatures #-}
+
+module Domain.Identity.Email (Email, EmailError(..), makeNonValidatedEmail, validateEmail) where
 
 import Data.Text (Text)
 import qualified Data.Text as Text
@@ -16,13 +19,13 @@ data EmailError =
 {-Aqui criamos um tipo fantasma de email, onde cada email tem um estado, não-validado e validado
 e o compilador ajuda a garantir que o fluxo será correto-}
 
-newtype Email state = MakeEmail Text
+newtype Email (state :: ValidationState) = MakeEmail Text
     deriving (Eq, Show)
 
-makeNonValidatedEmail :: Text -> Email NonValidated
+makeNonValidatedEmail :: Text -> Email 'NonValidated
 makeNonValidatedEmail recievedText = MakeEmail recievedText
 
-validateEmail :: Email NonValidated -> Either EmailError (Email Validated)
+validateEmail :: Email 'NonValidated -> Either EmailError (Email 'Validated)
 validateEmail (MakeEmail email)
     | Text.null email = Left EmptyEmail
     | Text.head email == '@' = Left StartsWithAt

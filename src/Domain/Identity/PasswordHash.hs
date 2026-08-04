@@ -1,3 +1,6 @@
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE KindSignatures #-}
+
 module Domain.Identity.PasswordHash (PasswordHash, hashPassword, verifyPassword) where
 
 import Data.Text (Text)
@@ -10,7 +13,7 @@ import Domain.Identity.SharedStates
 newtype PasswordHash = MakePasswordHash Text
     deriving (Eq, Show)
 
-hashPassword :: Password Validated -> IO PasswordHash
+hashPassword :: Password 'Validated -> IO PasswordHash
 {-hashPassword _ = 
     pure (MakePasswordHash (Text.pack("PLACEHOLDER")))
 -}
@@ -22,6 +25,7 @@ hashPassword password = do
     case hashed of
         Nothing -> error "Erro ao gerar hash da senha"
         Just hash -> pure (MakePasswordHash (Text.decodeUtf8 hash))
-verifyPassword :: Password Validated -> PasswordHash -> Bool
+
+verifyPassword :: Password 'Validated -> PasswordHash -> Bool
 verifyPassword password (MakePasswordHash hash) =
     BCrypt.validatePassword (Text.encodeUtf8 hash) (Text.encodeUtf8 (passwordText password))

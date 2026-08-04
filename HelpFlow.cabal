@@ -31,6 +31,7 @@ library
       Domain.Identity.PasswordHash
       Domain.Identity.SharedStates
       Domain.Identity.User
+      Domain.Identity.UserId
       Lib
   other-modules:
       Paths_HelpFlow
@@ -43,6 +44,8 @@ library
       base >=4.7 && <5
     , bcrypt
     , text
+    , uuid
+    , uuid-types
   default-language: Haskell2010
 
 executable HelpFlow-exe
@@ -60,6 +63,8 @@ executable HelpFlow-exe
     , base >=4.7 && <5
     , bcrypt
     , text
+    , uuid
+    , uuid-types
   default-language: Haskell2010
 
 test-suite HelpFlow-test
@@ -83,4 +88,6 @@ test-suite HelpFlow-test
     , tasty
     , tasty-hunit
     , text
+    , uuid
+    , uuid-types
   default-language: Haskell2010

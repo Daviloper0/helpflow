@@ -1,4 +1,6 @@
-module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName)where
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE KindSignatures #-}
+module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName, Name)where
 
 import Data.Char(isLetter, isSpace)
 import Data.Text (Text)
@@ -12,7 +14,7 @@ data NameError =
     | InvalidCharacter
     deriving (Eq, Show)
 
-makeNonValidatedName :: Text -> Name NonValidated
+makeNonValidatedName :: Text -> Name 'NonValidated
 makeNonValidatedName recievedText = MakeName recievedText
 
 normalizeName :: Text -> Text
@@ -22,11 +24,10 @@ normalizeName name =
 isValidCharacter :: Char -> Bool
 isValidCharacter character =
     isLetter character || isSpace character || character == '-'
-
-newtype Name state = MakeName Text
+newtype Name (state :: ValidationState) = MakeName Text
     deriving (Eq, Show)
 
-validateName :: Name NonValidated -> Either NameError (Name Validated)
+validateName :: Name 'NonValidated -> Either NameError (Name 'Validated)
 validateName (MakeName name)
     | Text.null (normalizeName name) = Left EmptyName
     | Text.length (normalizeName name) < 3 = Left NameTooShort --suponho que não existam nomes com menos de três letras

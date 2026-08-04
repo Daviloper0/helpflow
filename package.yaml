@@ -23,6 +23,8 @@ dependencies:
 - base >= 4.7 && < 5
 - text
 - bcrypt
+- uuid
+- uuid-types
 
 ghc-options:
 - -Wall
@@ -51,6 +53,8 @@ executables:
     - text
     - aeson
     - bcrypt
+    - uuid
+    - uuid-types
 
 tests:
   HelpFlow-test:
@@ -67,3 +71,5 @@ tests:
     - tasty-hunit
     - aeson
     - bcrypt
+    - uuid
+    - uuid-types

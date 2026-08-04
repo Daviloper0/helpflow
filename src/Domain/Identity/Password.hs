@@ -1,4 +1,6 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE KindSignatures #-}
+
 module Domain.Identity.Password (PasswordError(..), makeNonValidatedPassword, validatePassword, Password, passwordText) where
 
 import Data.Char (isLower, isUpper, isDigit, isSpace)
@@ -20,7 +22,7 @@ data PasswordError =
 {-Assim como no email, usamos tipos fantasmas em Password, para que lugares como PasswordHash 
 só aceitarem senhas que já passaram por validação -}
 
-newtype Password state = MakePassword Text
+newtype Password (state :: ValidationState) = MakePassword Text
     deriving (Eq, Show)
 
 isEmpty :: Text -> Bool
@@ -47,10 +49,10 @@ hasNoSpecialCharacters password = not (Text.any (\character -> not (isUpper char
 hasNoNumber :: Text -> Bool
 hasNoNumber password = not(Text.any isDigit password)
 
-makeNonValidatedPassword :: Text -> Password NonValidated
+makeNonValidatedPassword :: Text -> Password 'NonValidated
 makeNonValidatedPassword recievedText = MakePassword recievedText
 
-validatePassword :: Password NonValidated -> Either PasswordError (Password Validated)
+validatePassword :: Password 'NonValidated -> Either PasswordError (Password 'Validated)
 validatePassword (MakePassword password)
     | isEmpty password = Left EmptyPassword
     | isTooShort password = Left PasswordTooShort
@@ -62,5 +64,5 @@ validatePassword (MakePassword password)
     | hasNoNumber password = Left PasswordHasNoNumber
     | otherwise = Right (MakePassword password)
 
-passwordText :: Password Validated -> Text
+passwordText :: Password 'Validated -> Text
 passwordText (MakePassword password) = password
