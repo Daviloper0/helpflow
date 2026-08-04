@@ -3,7 +3,7 @@ module Tests.PasswordSpec (passwordTests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import qualified Data.Text as Text
-import Domain.Password  
+import Domain.Identity.Password  
 
 passwordTests :: TestTree
 passwordTests = testGroup "Testes de senha"

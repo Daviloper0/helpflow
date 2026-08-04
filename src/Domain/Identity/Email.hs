@@ -2,7 +2,7 @@ module Domain.Identity.Email (Email, NonValidated, Validated, EmailError(..), ma
 
 import Data.Text (Text)
 import qualified Data.Text as Text
-import Domain.SharedStates
+import Domain.Identity.SharedStates
 
 data EmailError = 
     EmptyEmail
@@ -12,8 +12,10 @@ data EmailError =
     | StartsWithDot
     | EndsWithDot
     deriving (Eq, Show)
+    
 {-Aqui criamos um tipo fantasma de email, onde cada email tem um estado, não-validado e validado
 e o compilador ajuda a garantir que o fluxo será correto-}
+
 newtype Email state = MakeEmail Text
     deriving (Eq, Show)
 

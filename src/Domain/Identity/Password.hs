@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Domain.Identity.Password (PasswordError(..), makeNonValidatedPassword, validatePassword, Password) where
+module Domain.Identity.Password (PasswordError(..), makeNonValidatedPassword, validatePassword, Password, passwordText) where
 
 import Data.Char (isLower, isUpper, isDigit, isSpace)
 import Data.Text (Text)
 import qualified Data.Text as Text
-import Domain.SharedStates
+import Domain.Identity.SharedStates
 
 data PasswordError = 
     EmptyPassword
@@ -17,6 +17,8 @@ data PasswordError =
     | PasswordHasNoSpecialCharacters
     deriving (Eq, Show)
 
+{-Assim como no email, usamos tipos fantasmas em Password, para que lugares como PasswordHash 
+só aceitarem senhas que já passaram por validação -}
 
 newtype Password state = MakePassword Text
     deriving (Eq, Show)
@@ -59,3 +61,6 @@ validatePassword (MakePassword password)
     | hasNoSpecialCharacters password = Left PasswordHasNoSpecialCharacters
     | hasNoNumber password = Left PasswordHasNoNumber
     | otherwise = Right (MakePassword password)
+
+passwordText :: Password Validated -> Text
+passwordText (MakePassword password) = password

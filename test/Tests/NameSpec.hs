@@ -3,7 +3,7 @@ module Tests.NameSpec (nameTests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import qualified Data.Text as Text
-import Domain.Name
+import Domain.Identity.Name
 
 nameTests :: TestTree
 nameTests = testGroup "Testes de Nome"

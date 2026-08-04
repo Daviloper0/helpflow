@@ -3,7 +3,7 @@ module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName)w
 import Data.Char(isLetter, isSpace)
 import Data.Text (Text)
 import qualified Data.Text as Text
-import Domain.SharedStates
+import Domain.Identity.SharedStates
 
 data NameError = 
     EmptyName
