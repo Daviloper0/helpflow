@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
 
-module Domain.Identity.User (Role, User(..)) where
+module Domain.Identity.User (Role(..), User(..)) where
 
 import Data.Text (Text)
 import Domain.Identity.UserId (UserId)

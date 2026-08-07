@@ -25,6 +25,8 @@ source-repository head
 
 library
   exposed-modules:
+      Application.Identity.RegisterRequest
+      Application.Identity.RegisterUser
       Domain.Identity.Email
       Domain.Identity.Name
       Domain.Identity.Password
