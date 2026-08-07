@@ -3,7 +3,6 @@
 
 module Domain.Identity.User (Role(..), User(..)) where
 
-import Data.Text (Text)
 import Domain.Identity.UserId (UserId)
 import Domain.Identity.Email (Email)
 import Domain.Identity.PasswordHash (PasswordHash)
@@ -14,7 +13,7 @@ data Role =
     Customer
     | Technician
     | Administrator
-    deriving (Eq)
+    deriving (Eq, Show)
 {-Para o role, usamos um ADT, assim é possível garantir que userRole só possa ter 3 opções-}
 
 data User = User {
@@ -24,4 +23,4 @@ data User = User {
     userName :: Name 'Validated,
     userRole :: Role
     }
-    deriving (Eq) 
+    deriving (Eq, Show) 

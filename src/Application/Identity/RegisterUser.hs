@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 
-module Application.Identity.RegisterUser (registerUser) where
+module Application.Identity.RegisterUser (registerUser, RegisterError(..)) where
 import Application.Identity.RegisterRequest
 import Domain.Identity.Name
 import Domain.Identity.User 
@@ -13,7 +13,7 @@ data RegisterError =
     InvalidEmail EmailError
     | InvalidName NameError
     | InvalidPassword PasswordError
-    deriving (Eq)
+    deriving (Eq, Show)
 
 registerUser :: RegisterRequest -> IO (Either RegisterError User)
 registerUser registerRequest = do

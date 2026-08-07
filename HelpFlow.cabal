@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Application.Identity.LoginRequest
       Application.Identity.RegisterRequest
       Application.Identity.RegisterUser
       Domain.Identity.Email
@@ -76,6 +77,7 @@ test-suite HelpFlow-test
       Tests.EmailSpec
       Tests.NameSpec
       Tests.PasswordSpec
+      Tests.RegisterUserSpec
       Paths_HelpFlow
   autogen-modules:
       Paths_HelpFlow
