@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Application.Identity.Login
       Application.Identity.LoginRequest
       Application.Identity.RegisterRequest
       Application.Identity.RegisterUser
@@ -75,6 +76,7 @@ test-suite HelpFlow-test
   main-is: Spec.hs
   other-modules:
       Tests.EmailSpec
+      Tests.LoginSpec
       Tests.NameSpec
       Tests.PasswordSpec
       Tests.RegisterUserSpec
