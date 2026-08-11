@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
-module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName, Name)where
+module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName, Name, nameText, parseName)where
 
 import Data.Char(isLetter, isSpace)
 import Data.Text (Text)
@@ -34,3 +34,12 @@ validateName (MakeName name)
     | Text.length (normalizeName name) > 100 = Left NameTooLong--infelizmente Laurence Watkins não vai poder usar o helpflow se quiser colocar o nome inteiro
     | not (Text.all isValidCharacter(normalizeName name)) = Left InvalidCharacter
     | otherwise = Right (MakeName (normalizeName name))
+
+nameText :: Name 'Validated -> Text
+nameText (MakeName name) = name
+
+parseName :: Text -> Maybe (Name 'Validated)
+parseName text =
+    case validateName (makeNonValidatedName text) of
+        Left _      -> Nothing
+        Right name -> Just name

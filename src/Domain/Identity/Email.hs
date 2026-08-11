@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
 
-module Domain.Identity.Email (Email, EmailError(..), makeNonValidatedEmail, validateEmail) where
+module Domain.Identity.Email (Email, EmailError(..), makeNonValidatedEmail, validateEmail, emailText, parseEmail) where
 
 import Data.Text (Text)
 import qualified Data.Text as Text
@@ -34,4 +34,12 @@ validateEmail (MakeEmail email)
     | Text.last email == '.' = Left EndsWithDot
     | Text.count (Text.pack "@") email > 1 = Left TooManyAts -- quero que esse seja o caso mais geral, os outros são mais específicos
     | otherwise = Right (MakeEmail email)
-    
+
+emailText :: Email 'Validated -> Text
+emailText (MakeEmail email) = email
+
+parseEmail :: Text -> Maybe (Email 'Validated)
+parseEmail text =
+    case validateEmail (makeNonValidatedEmail text) of
+        Left _      -> Nothing
+        Right email -> Just email

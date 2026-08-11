@@ -7,10 +7,13 @@ import Tests.NameSpec
 import Tests.PasswordSpec
 import Tests.RegisterUserSpec
 import Tests.LoginSpec
+import Infrastructure.Database (migrateDatabase)
+
 tests :: TestTree
 tests = testGroup "HelpFlow Tests"
         [emailTests, nameTests, passwordTests, registerUserTests, loginTests]
 
 main :: IO ()
-main =
-    defaultMain tests
+main = do
+        migrateDatabase 
+        defaultMain tests

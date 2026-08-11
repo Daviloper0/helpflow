@@ -9,6 +9,8 @@ import Domain.Identity.Email
 import Domain.Identity.Password 
 import Domain.Identity.PasswordHash
 
+import Infrastructure.Identity.UserRepository
+
 data RegisterError = 
     InvalidEmail EmailError
     | InvalidName NameError
@@ -49,4 +51,5 @@ registerUser registerRequest = do
                                 userName = name,
                                 userRole = Customer
                             }
+                            saveUser user
                             pure (Right user)

@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
 
-module Domain.Identity.PasswordHash (PasswordHash, hashPassword, verifyPassword) where
+module Domain.Identity.PasswordHash (PasswordHash, hashPassword, verifyPassword, passwordHashText) where
 
 import Data.Text (Text)
 import qualified Data.Text.Encoding as Text
@@ -29,3 +29,6 @@ hashPassword password = do
 verifyPassword :: Password 'Validated -> PasswordHash -> Bool
 verifyPassword password (MakePasswordHash hash) =
     BCrypt.validatePassword (Text.encodeUtf8 hash) (Text.encodeUtf8 (passwordText password))
+
+passwordHashText :: PasswordHash -> Text
+passwordHashText (MakePasswordHash passwordHash) = passwordHash

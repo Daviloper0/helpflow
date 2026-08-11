@@ -25,6 +25,9 @@ dependencies:
 - bcrypt
 - uuid
 - uuid-types
+- persistent
+- persistent-sqlite
+- persistent-template
 
 ghc-options:
 - -Wall
@@ -55,6 +58,9 @@ executables:
     - bcrypt
     - uuid
     - uuid-types
+    - persistent
+    - persistent-sqlite
+    - persistent-template
 
 tests:
   HelpFlow-test:
@@ -73,3 +79,6 @@ tests:
     - bcrypt
     - uuid
     - uuid-types
+    - persistent
+    - persistent-sqlite
+    - persistent-template

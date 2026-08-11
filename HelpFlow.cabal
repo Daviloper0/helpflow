@@ -36,6 +36,8 @@ library
       Domain.Identity.SharedStates
       Domain.Identity.User
       Domain.Identity.UserId
+      Infrastructure.Database
+      Infrastructure.Identity.UserRepository
       Lib
   other-modules:
       Paths_HelpFlow
@@ -47,6 +49,9 @@ library
   build-depends:
       base >=4.7 && <5
     , bcrypt
+    , persistent
+    , persistent-sqlite
+    , persistent-template
     , text
     , uuid
     , uuid-types
@@ -66,6 +71,9 @@ executable HelpFlow-exe
     , aeson
     , base >=4.7 && <5
     , bcrypt
+    , persistent
+    , persistent-sqlite
+    , persistent-template
     , text
     , uuid
     , uuid-types
@@ -91,6 +99,9 @@ test-suite HelpFlow-test
     , aeson
     , base >=4.7 && <5
     , bcrypt
+    , persistent
+    , persistent-sqlite
+    , persistent-template
     , tasty
     , tasty-hunit
     , text
