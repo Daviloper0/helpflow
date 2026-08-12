@@ -15,6 +15,7 @@ data RegisterError =
     InvalidEmail EmailError
     | InvalidName NameError
     | InvalidPassword PasswordError
+    | EmailAlreadyExists
     deriving (Eq, Show)
 
 registerUser :: RegisterRequest -> IO (Either RegisterError User)
@@ -41,15 +42,25 @@ registerUser registerRequest = do
                             pure (Left (InvalidPassword passwordError))
 
                         Right password -> do
-                            passwordHash <- hashPassword password
-                            idOfUser <- generateUserId
+                            -- antes não tinha porque nem tinha passado pela cabeça, mas não é pra ter dois emails iguais kkkkk
+                            
+                            existingUser <- findUserByEmail (emailText email)
 
-                            let user = User {
-                                userId = idOfUser,
-                                userEmail = email,
-                                userPasswordHash = passwordHash,
-                                userName = name,
-                                userRole = Customer
-                            }
-                            saveUser user
-                            pure (Right user)
+                            case existingUser of
+                                Just _ ->
+                                    pure (Left EmailAlreadyExists)
+
+                                Nothing -> do
+                                    passwordHash <- hashPassword password
+                                    idOfUser <- generateUserId
+
+                                    let user = User { 
+                                        userId = idOfUser, 
+                                        userEmail = email,
+                                        userPasswordHash = passwordHash,
+                                        userName = name,
+                                        userRole = Customer
+                                        }
+
+                                    saveUser user
+                                    pure (Right user)

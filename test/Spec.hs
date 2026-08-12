@@ -1,7 +1,9 @@
+{-#LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
 import Test.Tasty
-
+import Data.Text as Text
+import qualified Data.Text as Text
 import Tests.EmailSpec
 import Tests.NameSpec
 import Tests.PasswordSpec
@@ -15,5 +17,5 @@ tests = testGroup "HelpFlow Tests"
 
 main :: IO ()
 main = do
-        migrateDatabase 
+        migrateDatabase
         defaultMain tests

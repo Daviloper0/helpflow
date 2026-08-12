@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
 
-module Domain.Identity.PasswordHash (PasswordHash, hashPassword, verifyPassword, passwordHashText) where
+module Domain.Identity.PasswordHash (PasswordHash, hashPassword, verifyPassword, makePasswordHash, passwordHashText) where
 
 import Data.Text (Text)
 import qualified Data.Text.Encoding as Text
@@ -14,9 +14,6 @@ newtype PasswordHash = MakePasswordHash Text
     deriving (Eq, Show)
 
 hashPassword :: Password 'Validated -> IO PasswordHash
-{-hashPassword _ = 
-    pure (MakePasswordHash (Text.pack("PLACEHOLDER")))
--}
 hashPassword password = do
     hashed <- BCrypt.hashPasswordUsingPolicy
               BCrypt.slowerBcryptHashingPolicy
@@ -32,3 +29,7 @@ verifyPassword password (MakePasswordHash hash) =
 
 passwordHashText :: PasswordHash -> Text
 passwordHashText (MakePasswordHash passwordHash) = passwordHash
+
+-- funcao de makepasswordhash para poder realmente criar uma hashpassword
+makePasswordHash :: Text -> PasswordHash
+makePasswordHash = MakePasswordHash

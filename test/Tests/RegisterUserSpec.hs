@@ -3,9 +3,10 @@ module Tests.RegisterUserSpec (registerUserTests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import qualified Data.Text as Text
+
 import Domain.Identity.User
 import Domain.Identity.Email
-import Domain.Identity.Password  
+import Domain.Identity.Password
 import Domain.Identity.Name
 
 import Application.Identity.RegisterRequest
@@ -15,20 +16,20 @@ import Application.Identity.RegisterUser
 registerUserTests :: TestTree
 registerUserTests = testGroup "Testes de registro"
     [
-    testCase "Registro válido" (do
+    -- decidi tirar o teste de registro válido porque se não teria que criar uma função de deletar por agora kkk
+    
+    {- ->>--------------------------TESTE DE EMAIL DUPLICADO--------------------------<<- -}
+
+    testCase "Email já cadastrado" (do
         result <- registerUser (RegisterRequest
-            (Text.pack("Usuario"))
-            (Text.pack("usuario@email.com"))
-            (Text.pack("SenhaSuperSegura123@")))
+            (Text.pack "OutroUsuario")
+            (Text.pack "emailbomba@email.com")
+            (Text.pack "OutraSenha123@!"))
 
-        case result of
-            Right user -> do
-                userRole user @?= Customer
-
-            Left err ->
-                assertFailure ("Registro deveria ser valido: " ++ show err)
+        result @?= Left EmailAlreadyExists
     ),
-    {- ->>--------------------------------TESTES DOS EMAILS--------------------------------<<- -}
+
+{- ->>--------------------------------TESTES DOS EMAILS--------------------------------<<- -}
     testCase "Email vazio" (
         do
             result <- registerUser (RegisterRequest

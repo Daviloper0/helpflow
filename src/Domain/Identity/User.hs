@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
-
-module Domain.Identity.User (Role(..), User(..), roleText) where
+{-# LANGUAGE OverloadedStrings #-}
+module Domain.Identity.User (Role(..), User(..), roleText, parseRole) where
 
 import Domain.Identity.UserId (UserId)
 import Domain.Identity.Email (Email)
@@ -31,3 +31,12 @@ roleText :: Role -> Text
 roleText Customer = Text.pack("Customer")
 roleText Technician = Text.pack("Technician")
 roleText Administrator = Text.pack("Administrator")
+
+-- para poder receber texto do banco de dados e talvez transformar em Role
+parseRole :: Text -> Maybe Role
+parseRole text =
+    case text of
+        "Customer" -> Just Customer
+        "Technician" -> Just Technician
+        "Administrator" -> Just Administrator
+        _ -> Nothing

@@ -15,7 +15,7 @@
 {-# LANGUAGE TypeOperators #-} -- reclamou se não usasse
 -- usando como base https://hackage-content.haskell.org/package/persistent-2.18.1.0/docs/Database-Persist.html + reclamações do compilador
 
-module Infrastructure.Database (UserEntity(..), migrateDatabase, migrateAll) where
+module Infrastructure.Database (UserEntity(..), UserEntityId, findUserEntityByEmail, migrateDatabase, migrateAll) where
 
 import Data.Text (Text)
 
@@ -33,8 +33,13 @@ UserEntity
     role Text
     deriving Show
 |]
+-- tentei separar isso colocando essa parte no UserRepository, mas me encheu de problemas, então desisti
+findUserEntityByEmail :: Text -> IO (Maybe (Entity UserEntity))
+findUserEntityByEmail email =
+    runSqlite "helpflow.db" $
+        selectFirst [UserEntityEmail ==. email] []
 
 migrateDatabase :: IO ()
 migrateDatabase =
-    runSqlite "helpflow.db" (do
-        runMigration migrateAll)
+    runSqlite "helpflow.db" $ do
+        runMigration migrateAll
