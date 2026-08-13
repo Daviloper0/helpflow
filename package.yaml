@@ -28,6 +28,12 @@ dependencies:
 - persistent
 - persistent-sqlite
 - persistent-template
+- servant
+- servant-server
+- aeson
+- wai
+- warp
+
 
 ghc-options:
 - -Wall
@@ -61,6 +67,10 @@ executables:
     - persistent
     - persistent-sqlite
     - persistent-template
+    - servant
+    - servant-server
+    - wai
+    - warp
 
 tests:
   HelpFlow-test:
@@ -82,3 +92,7 @@ tests:
     - persistent
     - persistent-sqlite
     - persistent-template
+    - servant
+    - servant-server
+    - wai
+    - warp

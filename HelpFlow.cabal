@@ -25,6 +25,11 @@ source-repository head
 
 library
   exposed-modules:
+      API.API
+      API.ErrorResponse
+      API.Register
+      API.RegisterResponse
+      API.Server
       Application.Identity.Login
       Application.Identity.LoginRequest
       Application.Identity.RegisterRequest
@@ -47,14 +52,19 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , bcrypt
     , persistent
     , persistent-sqlite
     , persistent-template
+    , servant
+    , servant-server
     , text
     , uuid
     , uuid-types
+    , wai
+    , warp
   default-language: Haskell2010
 
 executable HelpFlow-exe
@@ -74,9 +84,13 @@ executable HelpFlow-exe
     , persistent
     , persistent-sqlite
     , persistent-template
+    , servant
+    , servant-server
     , text
     , uuid
     , uuid-types
+    , wai
+    , warp
   default-language: Haskell2010
 
 test-suite HelpFlow-test
@@ -102,9 +116,13 @@ test-suite HelpFlow-test
     , persistent
     , persistent-sqlite
     , persistent-template
+    , servant
+    , servant-server
     , tasty
     , tasty-hunit
     , text
     , uuid
     , uuid-types
+    , wai
+    , warp
   default-language: Haskell2010
