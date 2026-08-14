@@ -27,6 +27,8 @@ library
   exposed-modules:
       API.API
       API.ErrorResponse
+      API.Login
+      API.LoginResponse
       API.Register
       API.RegisterResponse
       API.Server

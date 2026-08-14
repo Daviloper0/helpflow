@@ -38,12 +38,3 @@ registerErrorToServerError registerError =
 
         EmailAlreadyExists ->
             errorResponse err409 "email_already_exists" "Email já cadastrado"
-
--- aqui a gente constroi a mensagem de erro, baseado na documentação do servant
-errorResponse :: ServerError -> Text.Text -> Text.Text -> ServerError
-errorResponse status code message =
-    status
-        { 
-            errHeaders = [("Content-Type", "application/json")],
-            errBody = encode (ErrorResponse code message)
-        }

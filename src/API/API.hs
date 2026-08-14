@@ -8,6 +8,7 @@ import Application.Identity.RegisterRequest
 import Application.Identity.LoginRequest
 
 import API.RegisterResponse
+import API.LoginResponse
 type API =
        "register" -- POST /register
            :> ReqBody '[JSON] RegisterRequest
@@ -15,4 +16,4 @@ type API =
 
   :<|> "login" -- POST /login
            :> ReqBody '[JSON] LoginRequest
-           :> Post '[JSON] NoContent -- vou deixar generico por enquanto
+           :> Post '[JSON] LoginResponse
