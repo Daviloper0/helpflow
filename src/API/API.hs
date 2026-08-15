@@ -7,6 +7,8 @@ import Servant
 import Application.Identity.RegisterRequest
 import Application.Identity.LoginRequest
 import Application.Ticket.CreateTicket
+import Application.Ticket.AssignTicket
+import Domain.Ticket.Ticket
 
 import API.RegisterResponse
 import API.LoginResponse
@@ -24,3 +26,9 @@ type API =
     :<|> "ticket" -- POST /ticket 
             :> ReqBody '[JSON] CreateTicketRequest 
             :> Post '[JSON] TicketResponse
+
+    :<|> "ticket" -- PATCH /ticket/:ticketId/assign
+            :> Capture "ticketId" TicketId
+            :> "assign"
+            :> ReqBody '[JSON] AssignTicketRequest
+            :> Patch '[JSON] TicketResponse

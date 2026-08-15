@@ -1,13 +1,13 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.TicketResponse (TicketResponse(..), ticketToResponse) where
+module API.TicketResponse (TicketResponse(..), ticketToResponse, ticketInProgressToResponse) where
 
 import Data.Aeson
 
 import Domain.Ticket.Ticket
 import Domain.Identity.UserId
-
+import Domain.Identity.User
 
 data TicketResponse = TicketResponse -- resposta deve ter os mesmos parâmetros do que o ticket, obviamente
     {
@@ -50,4 +50,19 @@ ticketToResponse (OpenTicket ticketId' title description priority category creat
           responseCategory = category,
           responseCreatedBy = createdBy,
           responseAssignedTo = Nothing
+        }
+
+-- mesma coisa que o anterior, mas para tickets em progresso
+ticketInProgressToResponse :: Ticket 'InProgress -> TicketResponse
+ticketInProgressToResponse (InProgressTicket ticketId' title description priority category createdBy technicianId) =
+    TicketResponse
+        { 
+          responseId = ticketId',
+          responseTitle = title,
+          responseDescription = description,
+          responseStatus = InProgress,
+          responsePriority = priority,
+          responseCategory = category,
+          responseCreatedBy = createdBy,
+          responseAssignedTo = Just (technicianIdToUserId technicianId)
         }

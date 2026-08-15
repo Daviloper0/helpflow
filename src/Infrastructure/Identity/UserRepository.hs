@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail) where
+module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail, findUserById) where
 
 import Database.Persist
 import Database.Persist.Sqlite
@@ -56,11 +56,52 @@ findUserByEmail email = do
                                                         (userEntityPasswordHash userEntity)
 
                                                 user = User
-                                                    { userId = idOfUser
-                                                    , userEmail = userEmail
-                                                    , userPasswordHash = userPasswordHash
-                                                    , userName = userName
-                                                    , userRole = userRole
+                                                    { 
+                                                        userId = idOfUser, 
+                                                        userEmail = userEmail,
+                                                        userPasswordHash = userPasswordHash,
+                                                        userName = userName,
+                                                        userRole = userRole
+                                                    }
+
+                                            in pure (Just user)
+-- alem de email, é util ter essa função de achar usuário por id, principalmente por causa dos técnicos
+findUserById :: UserId -> IO (Maybe User)
+findUserById userId = do
+    result <- findUserEntityById (userIdToText userId)
+
+    case result of
+        Nothing ->
+            pure Nothing
+
+        Just (Entity _ userEntity) ->
+            case makeUserId (userEntityUserId userEntity) of
+                Nothing -> pure Nothing
+
+                Just idOfUser ->
+                    case parseEmail (userEntityEmail userEntity) of
+                        Nothing -> pure Nothing
+
+                        Just userEmail ->
+                            case parseName (userEntityName userEntity) of
+                                Nothing -> pure Nothing
+
+                                Just userName ->
+                                    case parseRole (userEntityRole userEntity) of
+                                        Nothing -> pure Nothing
+
+                                        Just userRole ->
+                                            let userPasswordHash =
+                                                    makePasswordHash
+                                                        (userEntityPasswordHash userEntity)
+
+                                                user = User
+                                                    { 
+                                                        userId = idOfUser, 
+                                                        userEmail = userEmail,
+                                                        userPasswordHash = userPasswordHash,
+                                                        userName = userName,
+                                                        userRole = userRole
                                                     }
 
                                             in pure (Just user)

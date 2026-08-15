@@ -2,10 +2,16 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE OverloadedStrings #-}
 
-module Domain.Ticket.Ticket (createOpenTicket, ticketIdToInt, NewTicket(..), TicketId, TicketStatus(..), TicketPriority(..), TicketCategory(..), Ticket(..), makeTicketId) where
+module Domain.Ticket.Ticket (createOpenTicket, ticketIdToInt, NewTicket(..), TicketId, TicketStatus(..), TicketPriority(..), TicketCategory(..), Ticket(..), makeTicketId, assignTicketToTechnician, solveTicket) where
 
+import Domain.Identity.User
 import Domain.Identity.UserId
+
+import qualified Data.Text as Text
+import Web.HttpApiData
+
 
 newtype TicketId = TicketId Int 
     deriving (Eq, Ord, Show)
@@ -15,6 +21,18 @@ makeTicketId = TicketId
 
 ticketIdToInt :: TicketId -> Int 
 ticketIdToInt (TicketId ticketId) = ticketId
+
+-- é necessário converter o texto que sai do JSON (da requisição HTTP) e transforma em um ticketid
+
+instance FromHttpApiData TicketId where
+    parseUrlPiece text =
+        case reads (Text.unpack text) of
+            [(ticketId, "")] ->
+                Right (makeTicketId ticketId)
+            _ ->
+                Left "Invalid ticketId"
+
+
 data TicketStatus
     = Open
     | InProgress
@@ -39,7 +57,7 @@ data TicketPriority
 
 -- Utilizando type families para definir a transição de estados dos tickets, assim, nenhum ticket pode ir de open para resolved, sem passar por in progress, ou voltar um estado
 type family NextState (status :: TicketStatus) :: TicketStatus where
-    NextState 'Open       = 'InProgress
+    NextState 'Open = 'InProgress
     NextState 'InProgress = 'Solved
 
 {-usamos kindsignatures para garantir que apenas status TicketStatus sejam válidos, e utilizamos GADTs para 
@@ -56,22 +74,22 @@ data Ticket (status :: TicketStatus) where
 
     InProgressTicket
         :: TicketId
-        -> String -- Titulo
-        -> String -- Descrição
+        -> String
+        -> String
         -> TicketPriority
         -> TicketCategory
         -> UserId
-        -> Maybe UserId
+        -> TechnicianId
         -> Ticket 'InProgress
 
     SolvedTicket
         :: TicketId
-        -> String -- Titulo
-        -> String -- Descrição
+        -> String
+        -> String
         -> TicketPriority
         -> TicketCategory
         -> UserId
-        -> Maybe UserId
+        -> TechnicianId
         -> Ticket 'Solved
 
 --Ticket que ainda não possui ID gerado pelo banco
@@ -89,11 +107,19 @@ createOpenTicket title description priority category createdBy =
     NewOpenTicket title description priority category createdBy
     -- claramente criamos um ticket aberto, com os dados que já tinham sido definidos
 
-{-Aqui utilizamos o type family criado lá em cima, o interessante é que o compilador infere o tipo baseado apenas no
-tipo atual, porque definimos as transições anteriormente. Particularmente lembra os naturais de peano, talvez seja trauma-}
-advanceTicket :: Ticket status -> Ticket (NextState status)
-advanceTicket (OpenTicket ticketId' title description priority category createdBy) =
-    InProgressTicket ticketId' title description priority category createdBy Nothing
+{-
+    apesar da ideia de usar um advanceTicket antes fosse legal, não faz muito sentido como decisão de negócio
+    a ideia é que só possamos mudar o estado do ticket de open para inProgress dado um technicianId.
+    
+    então antes seria feito em uma função só, mas com pattern matching dos casos, agora vão ser funções separadas
 
-advanceTicket (InProgressTicket ticketId' title description priority category createdBy assignedTo) =
-    SolvedTicket ticketId' title description priority category createdBy assignedTo
+    além disso, ainda é possível utilizar type families, então ainda temos garantia no nivel dos tipos
+-}
+
+assignTicketToTechnician :: TechnicianId -> Ticket 'Open -> Ticket (NextState 'Open)
+assignTicketToTechnician technicianId (OpenTicket ticketId' title description priority category createdBy) =
+    InProgressTicket ticketId' title description priority category createdBy technicianId
+
+solveTicket :: Ticket 'InProgress -> Ticket 'Solved
+solveTicket (InProgressTicket ticketId' title description priority category createdBy technicianId) =
+    SolvedTicket ticketId' title description priority category createdBy technicianId

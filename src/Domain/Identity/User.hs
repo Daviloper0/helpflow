@@ -1,8 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Domain.Identity.User (Role(..), User(..), roleText, parseRole) where
-
+module Domain.Identity.User (Role(..), User(..), roleText, parseRole, TechnicianId(..), makeTechnicianId, technicianIdToUserId) where
 import Domain.Identity.UserId (UserId)
 import Domain.Identity.Email (Email)
 import Domain.Identity.PasswordHash (PasswordHash)
@@ -26,7 +25,21 @@ data User = User {
     userRole :: Role
     }
     deriving (Eq, Show) 
-    
+
+newtype TechnicianId = TechnicianId UserId
+    deriving (Eq, Ord, Show)
+
+{- Vamos utilizar smart constructor, para que apenas um user com cargo de técnico possa ter um TechnicianId-}
+makeTechnicianId :: User -> Maybe TechnicianId
+makeTechnicianId user =
+    case userRole user of
+        Technician -> Just (TechnicianId (userId user))
+        _ -> Nothing
+
+technicianIdToUserId :: TechnicianId -> UserId
+technicianIdToUserId (TechnicianId technicianId) =
+    technicianId
+
 roleText :: Role -> Text
 roleText Customer = Text.pack("Customer")
 roleText Technician = Text.pack("Technician")
@@ -40,3 +53,4 @@ parseRole text =
         "Technician" -> Just Technician
         "Administrator" -> Just Administrator
         _ -> Nothing
+

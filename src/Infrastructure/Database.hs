@@ -15,9 +15,10 @@
 {-# LANGUAGE TypeOperators #-} -- reclamou se não usasse
 -- usando como base https://hackage-content.haskell.org/package/persistent-2.18.1.0/docs/Database-Persist.html + reclamações do compilador
 
-module Infrastructure.Database (UserEntity(..), UserEntityId, TicketEntity(..), TicketEntityId, findUserEntityByEmail, migrateDatabase, migrateAll) where
+module Infrastructure.Database (UserEntity(..), UserEntityId, TicketEntity(..), TicketEntityId, findUserEntityByEmail, findUserEntityById, migrateDatabase, migrateAll) where
 
 import Data.Text (Text)
+import Data.List (find)
 
 import Database.Persist
 import Database.Persist.Sqlite
@@ -48,6 +49,18 @@ findUserEntityByEmail :: Text -> IO (Maybe (Entity UserEntity))
 findUserEntityByEmail email =
     runSqlite "helpflow.db" $
         selectFirst [UserEntityEmail ==. email] []
+
+-- Tentei usar o persistent para procurar, mas tive muito problema, então decidi fazer desse jeito
+findUserEntityById :: Text -> IO (Maybe (Entity UserEntity))
+findUserEntityById userId =
+    runSqlite "helpflow.db" $ do
+        entities <- selectList [] []
+
+        pure (findUserById userId entities)
+
+findUserById :: Text -> [Entity UserEntity] -> Maybe (Entity UserEntity)
+findUserById userId entities =
+    find (\(Entity _ userEntity) -> userEntityUserId userEntity == userId) entities
 
 migrateDatabase :: IO ()
 migrateDatabase =
