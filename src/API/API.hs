@@ -21,6 +21,6 @@ type API =
             :> ReqBody '[JSON] LoginRequest
             :> Post '[JSON] LoginResponse
     
-    :<|> "tickets" -- POST /tickets 
+    :<|> "ticket" -- POST /ticket 
             :> ReqBody '[JSON] CreateTicketRequest 
             :> Post '[JSON] TicketResponse
