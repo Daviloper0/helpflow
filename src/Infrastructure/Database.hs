@@ -15,7 +15,7 @@
 {-# LANGUAGE TypeOperators #-} -- reclamou se não usasse
 -- usando como base https://hackage-content.haskell.org/package/persistent-2.18.1.0/docs/Database-Persist.html + reclamações do compilador
 
-module Infrastructure.Database (UserEntity(..), UserEntityId, findUserEntityByEmail, migrateDatabase, migrateAll) where
+module Infrastructure.Database (UserEntity(..), UserEntityId, TicketEntity(..), TicketEntityId, findUserEntityByEmail, migrateDatabase, migrateAll) where
 
 import Data.Text (Text)
 
@@ -31,6 +31,16 @@ UserEntity
     passwordHash Text
     name Text
     role Text
+    deriving Show
+
+TicketEntity
+    title Text
+    description Text
+    status Text
+    priority Text
+    category Text
+    createdBy Text
+    assignedTo Text Maybe
     deriving Show
 |]
 -- tentei separar isso colocando essa parte no UserRepository, mas me encheu de problemas, então desisti

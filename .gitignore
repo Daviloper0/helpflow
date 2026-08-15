@@ -1,3 +1,5 @@
 .stack-work/
 *~
 helpflow.db
+helpflow.db-wal
+helpflow.db-shm

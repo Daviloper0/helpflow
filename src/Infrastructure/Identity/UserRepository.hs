@@ -1,8 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Infrastructure.Identity.UserRepository
-    ( saveUser, findUserByEmail
-    ) where
+module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail) where
 
 import Database.Persist
 import Database.Persist.Sqlite

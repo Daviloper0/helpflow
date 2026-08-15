@@ -32,10 +32,13 @@ library
       API.Register
       API.RegisterResponse
       API.Server
+      API.Ticket
+      API.TicketResponse
       Application.Identity.Login
       Application.Identity.LoginRequest
       Application.Identity.RegisterRequest
       Application.Identity.RegisterUser
+      Application.Ticket.CreateTicket
       Domain.Identity.Email
       Domain.Identity.Name
       Domain.Identity.Password
@@ -43,8 +46,10 @@ library
       Domain.Identity.SharedStates
       Domain.Identity.User
       Domain.Identity.UserId
+      Domain.Ticket.Ticket
       Infrastructure.Database
       Infrastructure.Identity.UserRepository
+      Infrastructure.Ticket.TicketRepository
       Lib
   other-modules:
       Paths_HelpFlow

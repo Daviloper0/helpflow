@@ -6,14 +6,21 @@ module API.API (API) where
 import Servant
 import Application.Identity.RegisterRequest
 import Application.Identity.LoginRequest
+import Application.Ticket.CreateTicket
 
 import API.RegisterResponse
 import API.LoginResponse
-type API =
-       "register" -- POST /register
-           :> ReqBody '[JSON] RegisterRequest
-           :> Post '[JSON] RegisterResponse
+import API.TicketResponse
 
-  :<|> "login" -- POST /login
-           :> ReqBody '[JSON] LoginRequest
-           :> Post '[JSON] LoginResponse
+type API =
+         "register" -- POST /register
+            :> ReqBody '[JSON] RegisterRequest
+            :> Post '[JSON] RegisterResponse
+
+    :<|> "login" -- POST /login
+            :> ReqBody '[JSON] LoginRequest
+            :> Post '[JSON] LoginResponse
+    
+    :<|> "tickets" -- POST /tickets 
+            :> ReqBody '[JSON] CreateTicketRequest 
+            :> Post '[JSON] TicketResponse

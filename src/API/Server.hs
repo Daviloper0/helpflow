@@ -8,9 +8,11 @@ import Servant
 import API.API
 import API.Register
 import API.Login
+import API.Ticket
 import Application.Identity.LoginRequest
 
 server :: Server API
 server =
     registerHandler
     :<|> loginHandler
+    :<|> ticketHandler
