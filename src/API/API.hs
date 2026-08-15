@@ -13,6 +13,7 @@ import Domain.Ticket.Ticket
 import API.RegisterResponse
 import API.LoginResponse
 import API.TicketResponse
+import API.SolveTicket
 
 type API =
          "register" -- POST /register
@@ -31,4 +32,9 @@ type API =
             :> Capture "ticketId" TicketId
             :> "assign"
             :> ReqBody '[JSON] AssignTicketRequest
+            :> Patch '[JSON] TicketResponse
+            
+    :<|> "ticket" -- PATCH /ticket/:ticketId/solve
+            :> Capture "ticketId" TicketId
+            :> "solve"
             :> Patch '[JSON] TicketResponse

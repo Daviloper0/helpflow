@@ -10,6 +10,7 @@ import API.Register
 import API.Login
 import API.Ticket
 import API.AssignTicket
+import API.SolveTicket
 import Application.Identity.LoginRequest
 
 server :: Server API
@@ -18,3 +19,4 @@ server =
     :<|> loginHandler
     :<|> ticketHandler
     :<|> assignTicketHandler
+    :<|> solveTicketHandler

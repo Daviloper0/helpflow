@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module API.AssignTicket (assignTicketHandler) where
 
@@ -7,6 +8,7 @@ import Control.Monad.IO.Class (liftIO)
 
 import Application.Ticket.AssignTicket
 import API.TicketResponse
+import API.ErrorResponse
 
 import Domain.Ticket.Ticket
 
@@ -14,10 +16,16 @@ import Domain.Ticket.Ticket
 assignTicketHandler :: TicketId -> AssignTicketRequest -> Handler TicketResponse
 assignTicketHandler ticketId request = do
     result <- liftIO (assignTicket ticketId (requestTechnicianId request))
-
+    {-Antes estava com erro genérico 404, mas é melhor ser mais específico-}
     case result of
-        Nothing ->
-            throwError err404
+        Left TicketNotAvailable ->
+            throwError (errorResponse err409 "TICKET_NOT_AVAILABLE" "Ticket is not available, maybe it doesn't exist or it's already assigned")
+        
+        Left UserNotFound ->
+            throwError (errorResponse err404 "USER_NOT_FOUND" "User not found")
 
-        Just inProgressTicket ->
+        Left UserNotTechnician ->
+            throwError (errorResponse err400 "USER_NOT_TECHNICIAN" "User is not a technician")
+
+        Right inProgressTicket ->
             pure (ticketInProgressToResponse inProgressTicket)

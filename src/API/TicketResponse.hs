@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.TicketResponse (TicketResponse(..), ticketToResponse, ticketInProgressToResponse) where
+module API.TicketResponse (TicketResponse(..), ticketToResponse, ticketInProgressToResponse, ticketSolvedToResponse) where
 
 import Data.Aeson
 
@@ -61,6 +61,21 @@ ticketInProgressToResponse (InProgressTicket ticketId' title description priorit
           responseTitle = title,
           responseDescription = description,
           responseStatus = InProgress,
+          responsePriority = priority,
+          responseCategory = category,
+          responseCreatedBy = createdBy,
+          responseAssignedTo = Just (technicianIdToUserId technicianId)
+        }
+
+-- agora para tickets resolvidos
+ticketSolvedToResponse :: Ticket 'Solved -> TicketResponse
+ticketSolvedToResponse (SolvedTicket ticketId' title description priority category createdBy technicianId) =
+    TicketResponse
+        { 
+          responseId = ticketId',
+          responseTitle = title,
+          responseDescription = description,
+          responseStatus = Solved,
           responsePriority = priority,
           responseCategory = category,
           responseCreatedBy = createdBy,

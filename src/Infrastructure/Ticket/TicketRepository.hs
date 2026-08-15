@@ -2,7 +2,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 
-module Infrastructure.Ticket.TicketRepository (saveTicket, findOpenTicket, findInProgressTicket, updateTicket) where
+module Infrastructure.Ticket.TicketRepository (saveTicket, findOpenTicket, findInProgressTicket, updateTicket, findTicketById) where
 
 import Data.Text(Text)
 import qualified Data.Text as Text
@@ -36,6 +36,12 @@ ticketToEntity (NewOpenTicket title description priority category createdBy) =
 ticketFromEntity :: TicketId -> NewTicket status -> Ticket status
 ticketFromEntity generatedId (NewOpenTicket title description priority category createdBy) =
     OpenTicket generatedId title description priority category createdBy
+
+-- útil para verificar as transições válidas
+findTicketById :: TicketId -> IO (Maybe TicketEntity)
+findTicketById ticketId =
+    runSqlite "helpflow.db" $ do
+        get (toSqlKey (fromIntegral (ticketIdToInt ticketId)) :: TicketEntityId)
 
 {-Procura por ticket aberto apenas, dado um id de ticket, é útil porque só teremos um Ticket 'Open se realmente estiver aberto.-}
 findOpenTicket :: TicketId -> IO (Maybe (Ticket 'Open))

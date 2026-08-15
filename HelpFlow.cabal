@@ -35,12 +35,14 @@ library
       API.Ticket
       API.TicketResponse
       API.AssignTicket
+      API.SolveTicket
       Application.Identity.Login
       Application.Identity.LoginRequest
       Application.Identity.RegisterRequest
       Application.Identity.RegisterUser
       Application.Ticket.CreateTicket
       Application.Ticket.AssignTicket
+      Application.Ticket.SolveTicket
       Domain.Identity.Email
       Domain.Identity.Name
       Domain.Identity.Password
