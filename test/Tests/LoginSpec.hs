@@ -18,7 +18,7 @@ loginTests = testGroup "Testes de login"
     testCase "Login válido" (do
         result <- login (LoginRequest
             (Text.pack "emailbomba@email.com")
-            (Text.pack "SenhaSuperSegura123@!"))
+            (Text.pack "OutraSenha123@!"))
 
         case result of
             Right loggedUser ->

@@ -19,4 +19,5 @@ tests = testGroup "HelpFlow Tests"
 main :: IO ()
 main = do
         migrateDatabase
+        setupTestUser
         defaultMain tests

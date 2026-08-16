@@ -1,4 +1,6 @@
-module Tests.RegisterUserSpec (registerUserTests) where
+{-#LANGUAGE OverloadedStrings #-}
+
+module Tests.RegisterUserSpec (setupTestUser, registerUserTests) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
@@ -11,15 +13,40 @@ import Domain.Identity.Name
 
 import Application.Identity.RegisterRequest
 import Application.Identity.RegisterUser
+import Infrastructure.Identity.UserRepository
 
 
+testRequest :: RegisterRequest
+testRequest =
+    RegisterRequest
+        { 
+            registerName = "Usuario Teste",
+            registerEmail = "emailbomba@email.com",
+            registerPassword = "OutraSenha123@!"
+        }
+
+setupTestUser :: IO ()
+setupTestUser = do
+    existingUser <- findUserByEmail "emailbomba@email.com"
+
+    case existingUser of
+        Just _ ->
+            pure ()
+
+        Nothing -> do
+            result <- registerUser testRequest
+
+            case result of
+                Left err ->
+                    error ("Falha ao criar usuário de teste: " ++ show err)
+
+                Right _ ->
+                    pure ()
+                    
 registerUserTests :: TestTree
 registerUserTests = testGroup "Testes de registro"
     [
-    -- decidi tirar o teste de registro válido porque se não teria que criar uma função de deletar por agora kkk
     
-    {- ->>--------------------------TESTE DE EMAIL DUPLICADO--------------------------<<- -}
-
     testCase "Email já cadastrado" (do
         result <- registerUser (RegisterRequest
             (Text.pack "OutroUsuario")
