@@ -3,7 +3,6 @@
 
 module Application.Ticket.CreateTicket (CreateTicketRequest(..), createTicket) where
 
-import GHC.Generics
 import Data.Aeson
 
 import Domain.Ticket.Ticket
@@ -34,33 +33,14 @@ createTicket request = do
 
     saveTicket newTicket
 
--- precisamos da conversão que transforma JSON em tipos, por isso fazemos isso para cada um dos tipos utilizados por CreateTicketRequest
-instance FromJSON TicketPriority where
-    parseJSON = withText "TicketPriority" $ \value ->
-        case value of
-            "Low" -> pure Low
-            "Normal" -> pure Normal
-            "High" -> pure High
-            _ -> fail "Invalid priority"
-
-instance FromJSON TicketCategory where
-    parseJSON = withText "TicketCategory" $ \value ->
-        case value of
-            "Network" -> pure Network
-            "Account" -> pure Account
-            "Printer" -> pure Printer
-            "Hardware" -> pure Hardware
-            "Other" -> pure Other
-            _ -> pure Other
-
 -- agora mapeamos a instância para CreateTicketRequest, para transformar JSON em tipos, ele pega o que o suposto front-end pode enviar
 instance FromJSON CreateTicketRequest where
-    parseJSON = withObject "CreateTicketRequest" $ \object -> do
-        title <- object .: "title"
-        description <- object .: "description"
-        priority <- object .: "priority"
-        category <- object .: "category"
-        createdByText <- object .: "createdBy"
+    parseJSON = withObject "CreateTicketRequest" $ \jsonPayload -> do
+        title <- jsonPayload .: "title"
+        description <- jsonPayload .: "description"
+        priority <- jsonPayload .: "priority"
+        category <- jsonPayload .: "category"
+        createdByText <- jsonPayload .: "createdBy"
 
         case makeUserId createdByText of
             Nothing -> fail "Invalid userId"

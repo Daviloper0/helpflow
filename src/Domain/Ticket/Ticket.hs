@@ -12,6 +12,7 @@ import Domain.Identity.UserId
 import qualified Data.Text as Text
 import Web.HttpApiData
 
+import Data.Aeson
 
 newtype TicketId = TicketId Int 
     deriving (Eq, Ord, Show)
@@ -123,3 +124,22 @@ assignTicketToTechnician technicianId (OpenTicket ticketId' title description pr
 solveTicket :: Ticket 'InProgress -> Ticket 'Solved
 solveTicket (InProgressTicket ticketId' title description priority category createdBy technicianId) =
     SolvedTicket ticketId' title description priority category createdBy technicianId
+
+-- precisamos da conversão que transforma JSON em tipos, por isso fazemos isso para cada um dos tipos utilizados por CreateTicketRequest
+instance FromJSON TicketPriority where
+    parseJSON = withText "TicketPriority" $ \value ->
+        case value of
+            "Low" -> pure Low
+            "Normal" -> pure Normal
+            "High" -> pure High
+            _ -> fail "Invalid priority"
+
+instance FromJSON TicketCategory where
+    parseJSON = withText "TicketCategory" $ \value ->
+        case value of
+            "Network" -> pure Network
+            "Account" -> pure Account
+            "Printer" -> pure Printer
+            "Hardware" -> pure Hardware
+            "Other" -> pure Other
+            _ -> pure Other

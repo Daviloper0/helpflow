@@ -5,7 +5,6 @@ module API.Login (loginHandler) where
 import Servant
 import Control.Monad.IO.Class (liftIO)
 
-import Data.Aeson (encode)
 import qualified Data.Text as Text
 
 import Application.Identity.LoginRequest

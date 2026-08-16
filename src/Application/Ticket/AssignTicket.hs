@@ -19,8 +19,8 @@ data AssignTicketRequest = AssignTicketRequest
     deriving (Eq, Show)
 
 instance FromJSON AssignTicketRequest where
-    parseJSON = withObject "AssignTicketRequest" $ \object -> do
-        technicianIdText <- object .: "technicianId"
+    parseJSON = withObject "AssignTicketRequest" $ \jsonPayload -> do
+        technicianIdText <- jsonPayload .: "technicianId"
 
         case makeUserId technicianIdText of
             Nothing -> fail "Invalid technicianId,"
@@ -36,7 +36,7 @@ data AssignTicketError =
 -- deveria achar outro nome 
 -- tive que trocar a assinatura porque agora tem os casos de erro
 assignTicket :: TicketId -> UserId -> IO (Either AssignTicketError (Ticket 'InProgress))
-assignTicket ticketId userId = do
+assignTicket ticketId givenUserId = do
     ticket <- findOpenTicket ticketId
 
     case ticket of
@@ -44,7 +44,7 @@ assignTicket ticketId userId = do
             pure (Left TicketNotAvailable)
 
         Just openTicket -> do
-            user <- findUserById userId
+            user <- findUserById givenUserId
 
             case user of
                 Nothing ->
