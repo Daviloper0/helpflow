@@ -1,5 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE GADTs#-}
 
 module API.TicketResponse (TicketResponse(..), ticketToResponse, ticketInProgressToResponse, ticketSolvedToResponse) where
 

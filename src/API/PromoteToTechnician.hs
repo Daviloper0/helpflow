@@ -11,7 +11,6 @@ import API.RegisterResponse
 import API.ErrorResponse
 
 import Domain.Identity.UserId
-import Domain.Identity.User
 import Infrastructure.Identity.UserRepository
 
 promoteToTechnicianHandler :: UserId -> UserId -> Handler RegisterResponse

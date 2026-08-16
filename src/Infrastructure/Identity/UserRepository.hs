@@ -5,10 +5,8 @@ module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail, findUs
 import Database.Persist
 import Database.Persist.Sqlite
 import Data.Text (Text)
-import qualified Data.Text as Text
 import Infrastructure.Database
 
-import Domain.Identity.SharedStates
 import Domain.Identity.User
 import Domain.Identity.Email
 import Domain.Identity.Name
@@ -27,8 +25,8 @@ saveUser user =
             )
 -- novamente, não sei se existe algum jeito melhor de fazer isso, mas que dói os olhos, dói
 findUserByEmail :: Text -> IO (Maybe User)
-findUserByEmail email = do
-    result <- findUserEntityByEmail email
+findUserByEmail givenEmail = do
+    result <- findUserEntityByEmail givenEmail
 
     case result of
         Nothing ->
@@ -38,37 +36,34 @@ findUserByEmail email = do
             case makeUserId (userEntityUserId userEntity) of
                 Nothing -> pure Nothing
 
-                Just idOfUser ->
+                Just foundUserId ->
                     case parseEmail (userEntityEmail userEntity) of
                         Nothing -> pure Nothing
 
-                        Just userEmail ->
+                        Just foundUserEmail ->
                             case parseName (userEntityName userEntity) of
                                 Nothing -> pure Nothing
 
-                                Just userName ->
+                                Just foundUserName ->
                                     case parseRole (userEntityRole userEntity) of
                                         Nothing -> pure Nothing
 
-                                        Just userRole ->
-                                            let userPasswordHash =
-                                                    makePasswordHash
-                                                        (userEntityPasswordHash userEntity)
-                                               
+                                        Just foundUserRole ->
+                                            let foundUserPasswordHash = makePasswordHash (userEntityPasswordHash userEntity)
                                                 user = User
                                                     { 
-                                                        userId = idOfUser, 
-                                                        userEmail = userEmail,
-                                                        userPasswordHash = userPasswordHash,
-                                                        userName = userName,
-                                                        userRole = userRole
+                                                        userId = foundUserId, 
+                                                        userEmail = foundUserEmail,
+                                                        userPasswordHash = foundUserPasswordHash,
+                                                        userName = foundUserName,
+                                                        userRole = foundUserRole
                                                     }
 
                                             in pure (Just user)
 -- alem de email, é util ter essa função de achar usuário por id, principalmente por causa dos técnicos
 findUserById :: UserId -> IO (Maybe User)
-findUserById userId = do
-    result <- findUserEntityById (userIdToText userId)
+findUserById givenUserId = do
+    result <- findUserEntityById (userIdToText givenUserId)
 
     case result of
         Nothing ->
@@ -78,30 +73,30 @@ findUserById userId = do
             case makeUserId (userEntityUserId userEntity) of
                 Nothing -> pure Nothing
 
-                Just idOfUser ->
+                Just foundUserId ->
                     case parseEmail (userEntityEmail userEntity) of
                         Nothing -> pure Nothing
 
-                        Just userEmail ->
+                        Just foundUserEmail ->
                             case parseName (userEntityName userEntity) of
                                 Nothing -> pure Nothing
 
-                                Just userName ->
+                                Just foundUserName ->
                                     case parseRole (userEntityRole userEntity) of
                                         Nothing -> pure Nothing
 
-                                        Just userRole ->
-                                            let userPasswordHash =
+                                        Just foundUserRole ->
+                                            let foundUserPasswordHash =
                                                     makePasswordHash
                                                         (userEntityPasswordHash userEntity)
 
                                                 user = User
                                                     { 
-                                                        userId = idOfUser, 
-                                                        userEmail = userEmail,
-                                                        userPasswordHash = userPasswordHash,
-                                                        userName = userName,
-                                                        userRole = userRole
+                                                        userId = foundUserId, 
+                                                        userEmail = foundUserEmail,
+                                                        userPasswordHash = foundUserPasswordHash,
+                                                        userName = foundUserName,
+                                                        userRole = foundUserRole
                                                     }
 
                                             in pure (Just user)
@@ -110,7 +105,7 @@ findUserById userId = do
 updateUserRole :: User -> Role -> IO Bool
 updateUserRole user role = do
     result <- findUserEntityById (userIdToText (userId user))
-    
+
     case result of
         Nothing ->
             pure False

@@ -13,9 +13,7 @@ import Domain.Ticket.Ticket
 import API.RegisterResponse
 import API.LoginResponse
 import API.TicketResponse
-import API.SolveTicket
 import Domain.Identity.UserId
-import API.PromoteToTechnician
 
 type API =
          "register" -- POST /register
