@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail, findUserById) where
+module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail, findUserById, updateUserRole) where
 
 import Database.Persist
 import Database.Persist.Sqlite
@@ -13,7 +13,7 @@ import Domain.Identity.User
 import Domain.Identity.Email
 import Domain.Identity.Name
 import Domain.Identity.PasswordHash
-import Domain.Identity.UserId 
+import Domain.Identity.UserId
 
 saveUser :: User -> IO ()
 saveUser user =
@@ -54,7 +54,7 @@ findUserByEmail email = do
                                             let userPasswordHash =
                                                     makePasswordHash
                                                         (userEntityPasswordHash userEntity)
-
+                                               
                                                 user = User
                                                     { 
                                                         userId = idOfUser, 
@@ -105,3 +105,22 @@ findUserById userId = do
                                                     }
 
                                             in pure (Just user)
+
+-- criando essa função que dado um usuário e um role, atualiza o role do usuário para um específico
+updateUserRole :: User -> Role -> IO Bool
+updateUserRole user role = do
+    result <- findUserEntityById (userIdToText (userId user))
+    
+    case result of
+        Nothing ->
+            pure False
+
+        Just (Entity entityId userEntity) -> do
+            runSqlite "helpflow.db" $ do
+                replace entityId
+                    userEntity
+                        { 
+                            userEntityRole = roleText role
+                        }
+
+            pure True

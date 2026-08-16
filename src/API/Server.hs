@@ -11,6 +11,7 @@ import API.Login
 import API.Ticket
 import API.AssignTicket
 import API.SolveTicket
+import API.PromoteToTechnician
 import Application.Identity.LoginRequest
 
 server :: Server API
@@ -20,3 +21,4 @@ server =
     :<|> ticketHandler
     :<|> assignTicketHandler
     :<|> solveTicketHandler
+    :<|> promoteToTechnicianHandler

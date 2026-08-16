@@ -14,6 +14,8 @@ import API.RegisterResponse
 import API.LoginResponse
 import API.TicketResponse
 import API.SolveTicket
+import Domain.Identity.UserId
+import API.PromoteToTechnician
 
 type API =
          "register" -- POST /register
@@ -38,3 +40,9 @@ type API =
             :> Capture "ticketId" TicketId
             :> "solve"
             :> Patch '[JSON] TicketResponse
+    :<|> "user" -- PATCH /user/{administratorId}/promote/{targetUserId}
+            :> Capture "administratorId" UserId
+            :> "promote"
+            :> Capture "targetUserId" UserId
+            :> Patch '[JSON] RegisterResponse
+        
