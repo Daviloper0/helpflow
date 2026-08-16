@@ -53,9 +53,6 @@ executables:
   HelpFlow-exe:
     main:                Main.hs
     source-dirs:         app
-    ghc-options:
-    - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - HelpFlow
     - text
@@ -76,10 +73,6 @@ tests:
   HelpFlow-test:
     main:                Spec.hs
     source-dirs:         test
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - HelpFlow
     - text

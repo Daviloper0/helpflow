@@ -1,12 +1,12 @@
 cabal-version: 2.2
 
--- This file has been generated from package.yaml by hpack version 0.39.6.
+-- This file has been generated from package.yaml by hpack version 0.38.1.
 --
 -- see: https://github.com/sol/hpack
 
 name:           HelpFlow
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/HelpFlow#readme>
+description:    Please see the README on GitHub at https://github.com/githubuser/HelpFlow#readme
 homepage:       https://github.com/Daviloper0/HelpFlow#readme
 bug-reports:    https://github.com/Daviloper0/HelpFlow/issues
 author:         Davi Guimarães
@@ -26,22 +26,22 @@ source-repository head
 library
   exposed-modules:
       API.API
+      API.AssignTicket
       API.ErrorResponse
       API.Login
       API.LoginResponse
       API.Register
       API.RegisterResponse
       API.Server
+      API.SolveTicket
       API.Ticket
       API.TicketResponse
-      API.AssignTicket
-      API.SolveTicket
       Application.Identity.Login
       Application.Identity.LoginRequest
       Application.Identity.RegisterRequest
       Application.Identity.RegisterUser
-      Application.Ticket.CreateTicket
       Application.Ticket.AssignTicket
+      Application.Ticket.CreateTicket
       Application.Ticket.SolveTicket
       Domain.Identity.Email
       Domain.Identity.Name
@@ -66,6 +66,7 @@ library
       aeson
     , base >=4.7 && <5
     , bcrypt
+    , http-api-data
     , persistent
     , persistent-sqlite
     , persistent-template
@@ -76,7 +77,6 @@ library
     , uuid-types
     , wai
     , warp
-    , http-api-data
   default-language: Haskell2010
 
 executable HelpFlow-exe
@@ -87,12 +87,13 @@ executable HelpFlow-exe
       Paths_HelpFlow
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       HelpFlow
     , aeson
     , base >=4.7 && <5
     , bcrypt
+    , http-api-data
     , persistent
     , persistent-sqlite
     , persistent-template
@@ -103,7 +104,6 @@ executable HelpFlow-exe
     , uuid-types
     , wai
     , warp
-    , http-api-data
   default-language: Haskell2010
 
 test-suite HelpFlow-test
@@ -120,12 +120,13 @@ test-suite HelpFlow-test
       Paths_HelpFlow
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       HelpFlow
     , aeson
     , base >=4.7 && <5
     , bcrypt
+    , http-api-data
     , persistent
     , persistent-sqlite
     , persistent-template
@@ -138,5 +139,4 @@ test-suite HelpFlow-test
     , uuid-types
     , wai
     , warp
-    , http-api-data 
   default-language: Haskell2010
