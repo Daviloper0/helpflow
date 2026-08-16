@@ -3,6 +3,7 @@ module Tests.PasswordSpec (passwordTests) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import qualified Data.Text as Text
+
 import Domain.Identity.Password  
 
 passwordTests :: TestTree

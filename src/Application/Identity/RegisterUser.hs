@@ -1,7 +1,9 @@
 {-# LANGUAGE DataKinds #-}
 
 module Application.Identity.RegisterUser (registerUser, RegisterError(..)) where
+
 import Application.Identity.RegisterRequest
+
 import Domain.Identity.Name
 import Domain.Identity.User 
 import Domain.Identity.UserId 

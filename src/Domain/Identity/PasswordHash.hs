@@ -6,6 +6,7 @@ module Domain.Identity.PasswordHash (PasswordHash, hashPassword, verifyPassword,
 import Data.Text (Text)
 import qualified Data.Text.Encoding as Text
 import qualified Crypto.BCrypt as BCrypt
+
 import Domain.Identity.Password
 import Domain.Identity.SharedStates
 

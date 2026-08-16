@@ -10,7 +10,7 @@ import GHC.Generics (Generic)
 data LoginResponse = LoginResponse
     { 
         loginMessage :: Text
-        -- TODO: adicionar o token depois se der tempo
+        -- TODO: adicionar o token depois se der tempo (ps. não deu)
     }
     deriving (Eq, Show, Generic)
 

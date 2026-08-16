@@ -5,11 +5,12 @@ module Application.Ticket.AssignTicket (AssignTicketRequest(..), AssignTicketErr
 
 import Data.Aeson
 
+import Infrastructure.Identity.UserRepository
+import Infrastructure.Ticket.TicketRepository
+
 import Domain.Ticket.Ticket
 import Domain.Identity.User
 import Domain.Identity.UserId
-import Infrastructure.Identity.UserRepository
-import Infrastructure.Ticket.TicketRepository
 
 
 data AssignTicketRequest = AssignTicketRequest

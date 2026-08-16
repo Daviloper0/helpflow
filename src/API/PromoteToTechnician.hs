@@ -6,11 +6,13 @@ module API.PromoteToTechnician (promoteToTechnicianHandler) where
 import Servant
 import Control.Monad.IO.Class (liftIO)
 
-import Application.Identity.PromoteToTechnician
 import API.RegisterResponse
 import API.ErrorResponse
 
+import Application.Identity.PromoteToTechnician
+
 import Domain.Identity.UserId
+
 import Infrastructure.Identity.UserRepository
 
 promoteToTechnicianHandler :: UserId -> UserId -> Handler RegisterResponse

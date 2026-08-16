@@ -5,6 +5,7 @@ module Domain.Identity.Email (Email, EmailError(..), makeNonValidatedEmail, vali
 
 import Data.Text (Text)
 import qualified Data.Text as Text
+
 import Domain.Identity.SharedStates
 
 data EmailError = 

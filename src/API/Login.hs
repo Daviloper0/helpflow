@@ -7,10 +7,11 @@ import Control.Monad.IO.Class (liftIO)
 
 import qualified Data.Text as Text
 
-import Application.Identity.LoginRequest
-import Application.Identity.Login
 import API.LoginResponse
 import API.ErrorResponse
+
+import Application.Identity.LoginRequest
+import Application.Identity.Login
 -- login é quase que uma cópia do register
 
 loginHandler :: LoginRequest -> Handler LoginResponse
@@ -32,4 +33,4 @@ loginErrorToServerError loginError =
             errorResponse err400 "invalid_password" (Text.pack (show passwordError))
 
         InvalidCredentials ->
-            errorResponse err401 "invalid_credentials""Email ou senha incorretos"
+            errorResponse err401 "invalid_credentials" "Email ou senha incorretos"

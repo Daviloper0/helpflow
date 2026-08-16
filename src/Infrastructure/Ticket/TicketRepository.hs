@@ -6,16 +6,14 @@ module Infrastructure.Ticket.TicketRepository (saveTicket, findOpenTicket, findI
 
 import Data.Text(Text)
 import qualified Data.Text as Text
-
 import Database.Persist
 import Database.Persist.Sqlite
-
-import Infrastructure.Database
 
 import Domain.Ticket.Ticket
 import Domain.Identity.UserId
 import Domain.Identity.User
 
+import Infrastructure.Database
 
 saveTicket :: NewTicket status -> IO (Ticket status)
 saveTicket ticket =

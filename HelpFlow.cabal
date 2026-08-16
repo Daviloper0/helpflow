@@ -56,7 +56,6 @@ library
       Infrastructure.Database
       Infrastructure.Identity.UserRepository
       Infrastructure.Ticket.TicketRepository
-      Lib
   other-modules:
       Paths_HelpFlow
   autogen-modules:

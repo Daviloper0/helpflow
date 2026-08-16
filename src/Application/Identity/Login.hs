@@ -3,11 +3,13 @@
 module Application.Identity.Login (login, LoginError(..)) where
 
 import Application.Identity.LoginRequest
-import Infrastructure.Identity.UserRepository
+
 import Domain.Identity.User
 import Domain.Identity.Email
 import Domain.Identity.Password
 import Domain.Identity.PasswordHash
+
+import Infrastructure.Identity.UserRepository
 
 data LoginError =
     InvalidLoginEmail EmailError

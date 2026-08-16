@@ -2,13 +2,15 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE OverloadedStrings #-}
 module Domain.Identity.User (Role(..), User(..), roleText, parseRole, TechnicianId(..), makeTechnicianId, technicianIdToUserId) where
+
+import Data.Text (Text)
+import qualified Data.Text as Text
+
 import Domain.Identity.UserId (UserId)
 import Domain.Identity.Email (Email)
 import Domain.Identity.PasswordHash (PasswordHash)
 import Domain.Identity.Name (Name)
 import Domain.Identity.SharedStates
-import Data.Text (Text)
-import qualified Data.Text as Text
 
 data Role =
     Customer

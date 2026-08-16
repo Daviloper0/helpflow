@@ -5,13 +5,14 @@ module Infrastructure.Identity.UserRepository (saveUser, findUserByEmail, findUs
 import Database.Persist
 import Database.Persist.Sqlite
 import Data.Text (Text)
-import Infrastructure.Database
 
 import Domain.Identity.User
 import Domain.Identity.Email
 import Domain.Identity.Name
 import Domain.Identity.PasswordHash
 import Domain.Identity.UserId
+
+import Infrastructure.Database
 
 saveUser :: User -> IO ()
 saveUser user =

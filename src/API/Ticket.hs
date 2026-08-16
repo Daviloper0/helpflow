@@ -5,8 +5,9 @@ module API.Ticket (ticketHandler) where
 import Servant
 import Control.Monad.IO.Class (liftIO)
 
-import Application.Ticket.CreateTicket
 import API.TicketResponse
+
+import Application.Ticket.CreateTicket
 
 --explicação do codigo no register.hs
 

@@ -6,6 +6,7 @@ module Domain.Identity.Password (PasswordError(..), makeNonValidatedPassword, va
 import Data.Char (isLower, isUpper, isDigit, isSpace)
 import Data.Text (Text)
 import qualified Data.Text as Text
+
 import Domain.Identity.SharedStates
 
 data PasswordError = 

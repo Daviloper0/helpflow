@@ -6,6 +6,7 @@ import qualified Data.Text as Text
 
 import Application.Identity.LoginRequest
 import Application.Identity.Login
+
 import Domain.Identity.User
 import Domain.Identity.Email
 import Domain.Identity.Password

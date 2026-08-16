@@ -6,13 +6,12 @@
 
 module Domain.Ticket.Ticket (createOpenTicket, ticketIdToInt, NewTicket(..), TicketId, TicketStatus(..), TicketPriority(..), TicketCategory(..), Ticket(..), makeTicketId, assignTicketToTechnician, solveTicket) where
 
-import Domain.Identity.User
-import Domain.Identity.UserId
-
 import qualified Data.Text as Text
+import Data.Aeson
 import Web.HttpApiData
 
-import Data.Aeson
+import Domain.Identity.User
+import Domain.Identity.UserId
 
 newtype TicketId = TicketId Int 
     deriving (Eq, Ord, Show)

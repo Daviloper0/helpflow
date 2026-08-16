@@ -6,10 +6,11 @@ import Servant
 import Control.Monad.IO.Class (liftIO) -- precisa disso porque o servant trabalha com Handler, mas registerUser retorna um IO, então esse liftIO pega a operação de IO e joga dentro do handler
 import qualified Data.Text as Text
 
-import Application.Identity.RegisterRequest
-import Application.Identity.RegisterUser
 import API.RegisterResponse
 import API.ErrorResponse
+
+import Application.Identity.RegisterRequest
+import Application.Identity.RegisterUser
 
 
 registerHandler :: RegisterRequest -> Handler RegisterResponse

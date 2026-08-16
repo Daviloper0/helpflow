@@ -3,6 +3,7 @@
 module Application.Ticket.SolveTicket (SolveTicketError(..), completeTicket) where
 
 import Domain.Ticket.Ticket
+
 import Infrastructure.Ticket.TicketRepository
 
 data SolveTicketError =

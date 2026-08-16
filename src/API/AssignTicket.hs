@@ -6,9 +6,10 @@ module API.AssignTicket (assignTicketHandler) where
 import Servant
 import Control.Monad.IO.Class (liftIO)
 
-import Application.Ticket.AssignTicket
 import API.TicketResponse
 import API.ErrorResponse
+
+import Application.Ticket.AssignTicket
 
 import Domain.Ticket.Ticket
 

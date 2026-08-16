@@ -5,6 +5,7 @@ module Domain.Identity.Name (NameError(..), makeNonValidatedName, validateName, 
 import Data.Char(isLetter, isSpace)
 import Data.Text (Text)
 import qualified Data.Text as Text
+
 import Domain.Identity.SharedStates
 
 data NameError = 

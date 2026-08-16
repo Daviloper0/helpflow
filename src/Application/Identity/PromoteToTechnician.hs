@@ -7,6 +7,7 @@ module Application.Identity.PromoteToTechnician
     ) where
 
 import Domain.Identity.User
+
 import Infrastructure.Identity.UserRepository
 
 data PromoteError =

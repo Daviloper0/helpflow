@@ -8,9 +8,10 @@ module API.SolveTicket (solveTicketHandler) where
 import Servant
 import Control.Monad.IO.Class (liftIO)
 
-import Application.Ticket.SolveTicket
 import API.TicketResponse
 import API.ErrorResponse
+
+import Application.Ticket.SolveTicket
 
 import Domain.Ticket.Ticket
 {-Parecido com o resto, para variar-}
