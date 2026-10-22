@@ -45,4 +45,9 @@ type API =
             :> "promote"
             :> Capture "targetUserId" UserId
             :> Patch '[JSON] RegisterResponse
-        
+
+    :<|> "user" -- PATCH /user/{administratorId}/demote/{targetUserId}
+            :> Capture "administratorId" UserId
+            :> "demote"
+            :> Capture "targetUserId" UserId
+            :> Patch '[JSON] RegisterResponse

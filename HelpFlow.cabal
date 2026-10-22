@@ -27,6 +27,7 @@ library
   exposed-modules:
       API.API
       API.AssignTicket
+      API.DemoteToUser
       API.ErrorResponse
       API.Login
       API.LoginResponse
@@ -37,6 +38,7 @@ library
       API.SolveTicket
       API.Ticket
       API.TicketResponse
+      Application.Identity.DemoteToUser
       Application.Identity.Login
       Application.Identity.LoginRequest
       Application.Identity.PromoteToTechnician

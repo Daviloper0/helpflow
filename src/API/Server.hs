@@ -12,6 +12,7 @@ import API.Ticket
 import API.AssignTicket
 import API.SolveTicket
 import API.PromoteToTechnician
+import API.DemoteToUser
 
 server :: Server API
 server =
@@ -21,3 +22,4 @@ server =
     :<|> assignTicketHandler
     :<|> solveTicketHandler
     :<|> promoteToTechnicianHandler
+    :<|> demoteToUserHandler
