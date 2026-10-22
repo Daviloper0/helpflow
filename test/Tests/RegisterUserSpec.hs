@@ -9,7 +9,6 @@ import qualified Data.Text as Text
 import Application.Identity.RegisterRequest
 import Application.Identity.RegisterUser
 
-import Domain.Identity.User
 import Domain.Identity.Email
 import Domain.Identity.Password
 import Domain.Identity.Name

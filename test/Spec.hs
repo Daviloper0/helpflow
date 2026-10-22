@@ -3,8 +3,6 @@
 module Main (main) where
 
 import Test.Tasty
-import Data.Text as Text
-import qualified Data.Text as Text
 
 import Infrastructure.Database (migrateDatabase)
 
