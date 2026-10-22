@@ -12,13 +12,16 @@ import API.ErrorResponse
 import Application.Identity.RegisterRequest
 import Application.Identity.RegisterUser
 
+import Domain.Identity.User
+import Domain.Identity.UserId
+
 
 registerHandler :: RegisterRequest -> Handler RegisterResponse
 registerHandler request = do
     result <- liftIO (registerUser request) -- quando chegamos aqui, sabemos que o request é um registro, então é possível fazer isso
 
     case result of
-        Right _ -> pure (RegisterResponse (Text.pack "Usuário registrado com sucesso"))
+        Right user -> pure (RegisterResponse (Text.pack "Usuário registrado com sucesso") (userIdToText (userId user)))
 
         Left err -> throwError (registerErrorToServerError err)
 

@@ -11,6 +11,7 @@ import API.ErrorResponse
 
 import Application.Identity.PromoteToTechnician
 
+import Domain.Identity.User
 import Domain.Identity.UserId
 
 import Infrastructure.Identity.UserRepository
@@ -39,4 +40,4 @@ promoteToTechnicianHandler administratorId targetUserId = do
 
                         Left UserNotFound -> throwError (errorResponse err404 "USER_NOT_FOUND" "User not found")
 
-                        Right _ -> pure (RegisterResponse "User is now a technician")
+                        Right user -> pure (RegisterResponse "User is now a technician" (userIdToText (userId user)))

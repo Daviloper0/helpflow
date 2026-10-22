@@ -11,6 +11,7 @@ import API.ErrorResponse
 
 import Application.Identity.DemoteToUser
 
+import Domain.Identity.User
 import Domain.Identity.UserId
 
 import Infrastructure.Identity.UserRepository
@@ -39,4 +40,4 @@ demoteToUserHandler administratorId targetUserId = do
 
                         Left UserNotFound -> throwError (errorResponse err404 "USER_NOT_FOUND" "User not found")
 
-                        Right _ -> pure (RegisterResponse "User has been demoted to customer")
+                        Right user -> pure (RegisterResponse "User has been demoted to customer" (userIdToText (userId user)))

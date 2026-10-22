@@ -8,8 +8,9 @@ import GHC.Generics (Generic)
 -- exatamente a mesma coisa do RegisterResponse, só que para o login
 
 data LoginResponse = LoginResponse
-    { 
-        loginMessage :: Text
+    {
+        loginMessage :: Text,
+        loginUserId  :: Text
         -- TODO: adicionar o token depois se der tempo (ps. não deu)
     }
     deriving (Eq, Show, Generic)

@@ -12,6 +12,9 @@ import API.ErrorResponse
 
 import Application.Identity.LoginRequest
 import Application.Identity.Login
+
+import Domain.Identity.User
+import Domain.Identity.UserId
 -- login é quase que uma cópia do register
 
 loginHandler :: LoginRequest -> Handler LoginResponse
@@ -19,7 +22,7 @@ loginHandler request = do
     result <- liftIO (login request)
 
     case result of
-        Right _ -> pure (LoginResponse (Text.pack "Login realizado com sucesso"))
+        Right user -> pure (LoginResponse (Text.pack "Login realizado com sucesso") (userIdToText (userId user)))
 
         Left err -> throwError (loginErrorToServerError err)
 
