@@ -4,6 +4,7 @@
 module API.API (API) where
 
 import Servant
+import Data.Text (Text)
 
 import API.RegisterResponse
 import API.LoginResponse
@@ -31,23 +32,23 @@ type API =
             :> Post '[JSON] TicketResponse
 
     :<|> "ticket" -- PATCH /ticket/{ticketId}/assign
-            :> Capture "ticketId" TicketId
+            :> Capture "ticketId" Text
             :> "assign"
             :> ReqBody '[JSON] AssignTicketRequest
             :> Patch '[JSON] TicketResponse
-            
+
     :<|> "ticket" -- PATCH /ticket/{ticketId}/solve
-            :> Capture "ticketId" TicketId
+            :> Capture "ticketId" Text
             :> "solve"
             :> Patch '[JSON] TicketResponse
     :<|> "user" -- PATCH /user/{administratorId}/promote/{targetUserId}
-            :> Capture "administratorId" UserId
+            :> Capture "administratorId" Text
             :> "promote"
-            :> Capture "targetUserId" UserId
+            :> Capture "targetUserId" Text
             :> Patch '[JSON] RegisterResponse
 
     :<|> "user" -- PATCH /user/{administratorId}/demote/{targetUserId}
-            :> Capture "administratorId" UserId
+            :> Capture "administratorId" Text
             :> "demote"
-            :> Capture "targetUserId" UserId
+            :> Capture "targetUserId" Text
             :> Patch '[JSON] RegisterResponse

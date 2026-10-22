@@ -4,9 +4,10 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Domain.Ticket.Ticket (createOpenTicket, ticketIdToInt, NewTicket(..), TicketId, TicketStatus(..), TicketPriority(..), TicketCategory(..), Ticket(..), makeTicketId, assignTicketToTechnician, solveTicket) where
+module Domain.Ticket.Ticket (createOpenTicket, ticketIdToInt, NewTicket(..), TicketId, TicketStatus(..), TicketPriority(..), TicketCategory(..), Ticket(..), makeTicketId, makeTicketIdFromText, assignTicketToTechnician, solveTicket) where
 
 import qualified Data.Text as Text
+import Data.Text (Text)
 import Data.Aeson
 import Web.HttpApiData
 
@@ -19,7 +20,13 @@ newtype TicketId = TicketId Int
 makeTicketId :: Int -> TicketId
 makeTicketId = TicketId
 
-ticketIdToInt :: TicketId -> Int 
+makeTicketIdFromText :: Text -> Maybe TicketId
+makeTicketIdFromText text =
+    case reads (Text.unpack text) of
+        [(n, "")] -> Just (TicketId n)
+        _         -> Nothing
+
+ticketIdToInt :: TicketId -> Int
 ticketIdToInt (TicketId ticketId) = ticketId
 
 -- é necessário converter o texto que sai do JSON (da requisição HTTP) e transforma em um ticketid

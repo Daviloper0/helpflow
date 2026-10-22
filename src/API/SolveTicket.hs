@@ -14,10 +14,16 @@ import API.ErrorResponse
 import Application.Ticket.SolveTicket
 
 import Domain.Ticket.Ticket
+
+import Data.Text (Text)
 {-Parecido com o resto, para variar-}
 
-solveTicketHandler :: TicketId -> Handler TicketResponse
-solveTicketHandler ticketId = do
+solveTicketHandler :: Text -> Handler TicketResponse
+solveTicketHandler ticketIdText = do
+    ticketId <- case makeTicketIdFromText ticketIdText of
+        Nothing -> throwError (errorResponse err400 "INVALID_TICKET_ID" "Invalid ticketId")
+        Just tid -> pure tid
+
     result <- liftIO (completeTicket ticketId)
 
     case result of

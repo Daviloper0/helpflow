@@ -16,8 +16,18 @@ import Domain.Identity.UserId
 
 import Infrastructure.Identity.UserRepository
 
-promoteToTechnicianHandler :: UserId -> UserId -> Handler RegisterResponse
-promoteToTechnicianHandler administratorId targetUserId = do
+import Data.Text (Text)
+
+promoteToTechnicianHandler :: Text -> Text -> Handler RegisterResponse
+promoteToTechnicianHandler administratorIdText targetUserIdText = do
+    administratorId <- case makeUserId administratorIdText of
+        Nothing -> throwError (errorResponse err400 "INVALID_USER_ID" "Invalid administratorId")
+        Just uid -> pure uid
+
+    targetUserId <- case makeUserId targetUserIdText of
+        Nothing -> throwError (errorResponse err400 "INVALID_USER_ID" "Invalid targetUserId")
+        Just uid -> pure uid
+
     administrator <- liftIO (findUserById administratorId)
 
     case administrator of

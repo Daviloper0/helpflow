@@ -13,9 +13,15 @@ import Application.Ticket.AssignTicket
 
 import Domain.Ticket.Ticket
 
+import Data.Text (Text)
+
 -- similar aos outros também
-assignTicketHandler :: TicketId -> AssignTicketRequest -> Handler TicketResponse
-assignTicketHandler ticketId request = do
+assignTicketHandler :: Text -> AssignTicketRequest -> Handler TicketResponse
+assignTicketHandler ticketIdText request = do
+    ticketId <- case makeTicketIdFromText ticketIdText of
+        Nothing -> throwError (errorResponse err400 "INVALID_TICKET_ID" "Invalid ticketId")
+        Just tid -> pure tid
+
     result <- liftIO (assignTicket ticketId (requestTechnicianId request))
     {-Antes estava com erro genérico 404, mas é melhor ser mais específico-}
     case result of
@@ -27,6 +33,9 @@ assignTicketHandler ticketId request = do
 
         Left UserNotTechnician ->
             throwError (errorResponse err400 "USER_NOT_TECHNICIAN" "User is not a technician")
+
+        Left InvalidTechnicianId ->
+            throwError (errorResponse err400 "INVALID_TECHNICIAN_ID" "Invalid technicianId")
 
         Right inProgressTicket ->
             pure (ticketInProgressToResponse inProgressTicket)
