@@ -17,7 +17,7 @@ newtype PasswordHash = MakePasswordHash Text
 hashPassword :: Password 'Validated -> IO PasswordHash
 hashPassword password = do
     hashed <- BCrypt.hashPasswordUsingPolicy
-              BCrypt.slowerBcryptHashingPolicy
+              BCrypt.fastBcryptHashingPolicy
               (Text.encodeUtf8 (passwordText password))
     
     case hashed of
