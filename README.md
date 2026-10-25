@@ -32,5 +32,5 @@ Sobre o projeto em geral, eu subestimei um pouco o tempo. A ideia inicial era fa
 Sobre os destaques do projeto, é que foi possível utilziar boa parte das técnicas aprendidas, ADTs (Cargos dos usuários), GADTs (Criação de Tickets), DataKinds + Phanthom Types (Estados de validação), Type Families (transição dos tickets). Não achei uma oportunidade para utilizar tipos existenciais, por exemplo.
 
 ## Como rodar?
-
+É necessário baixar o [Haskell com o GHCup](https://www.haskell.org/ghcup/) e o stack também.
 Para rodar o servidor, **stack run**, para visualização do banco de dados, recomendo o [DB Browser for SQLite](https://sqlitebrowser.org/), e para testar a API, recomendo o [Insomnia](https://insomnia.rest/)
